@@ -26,9 +26,6 @@
       "package": "com.sirivlucifer.warehouse",
       "permissions": ["CAMERA"]
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
     "plugins": [
       [
         "expo-camera",
