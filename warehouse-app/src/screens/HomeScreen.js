@@ -119,16 +119,16 @@ export default function HomeScreen({ navigation }) {
       <Text style={styles.sectionTitle}>Hızlı Erişim</Text>
       <View style={styles.quickGrid}>
         <QuickBtn
+          icon="list-circle-outline"
+          label="Toplama"
+          color="#F59E0B"
+          onPress={() => navigation.navigate('Picking')}
+        />
+        <QuickBtn
           icon="barcode-outline"
           label="Barkod Tara"
           color="#6C63FF"
           onPress={() => navigation.navigate('Barcode')}
-        />
-        <QuickBtn
-          icon="list-outline"
-          label="Siparişler"
-          color="#F59E0B"
-          onPress={() => navigation.navigate('Orders', {})}
         />
         <QuickBtn
           icon="cube-outline"

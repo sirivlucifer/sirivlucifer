@@ -14,23 +14,24 @@ import OrderDetailScreen from '../screens/OrderDetailScreen';
 import BarcodeScreen from '../screens/BarcodeScreen';
 import StockScreen from '../screens/StockScreen';
 import ShippingScreen from '../screens/ShippingScreen';
+import PickingScreen from '../screens/PickingScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const TAB_ICONS = {
   Home: ['home', 'home-outline'],
-  Orders: ['receipt', 'receipt-outline'],
+  Picking: ['list-circle', 'list-circle-outline'],
   Barcode: ['barcode', 'barcode-outline'],
-  Stock: ['cube', 'cube-outline'],
+  Orders: ['receipt', 'receipt-outline'],
   Shipping: ['car', 'car-outline'],
 };
 
 const TAB_LABELS = {
   Home: 'Ana Sayfa',
-  Orders: 'Siparişler',
+  Picking: 'Toplama',
   Barcode: 'Barkod',
-  Stock: 'Stok',
+  Orders: 'Siparişler',
   Shipping: 'Kargo',
 };
 
@@ -59,14 +60,31 @@ function MainTabs() {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} options={{ title: 'Ana Sayfa', tabBarLabel: TAB_LABELS.Home }} />
-      <Tab.Screen name="Orders" component={OrdersScreen} options={{ title: 'Siparişler', tabBarLabel: TAB_LABELS.Orders }} />
+      <Tab.Screen
+        name="Picking"
+        component={PickingScreen}
+        options={{
+          title: 'Toplama Listesi',
+          tabBarLabel: TAB_LABELS.Picking,
+          tabBarIcon: ({ focused }) => (
+            <View style={{
+              backgroundColor: focused ? '#F59E0B' : '#2a2a3e',
+              borderRadius: 12,
+              padding: 8,
+              marginBottom: 4,
+            }}>
+              <Ionicons name="list-circle-outline" size={22} color={focused ? '#fff' : '#888'} />
+            </View>
+          ),
+        }}
+      />
       <Tab.Screen
         name="Barcode"
         component={BarcodeScreen}
         options={{
           title: 'Barkod Tara',
           tabBarLabel: TAB_LABELS.Barcode,
-          tabBarIcon: ({ focused, color }) => (
+          tabBarIcon: ({ focused }) => (
             <View style={{
               backgroundColor: focused ? '#6C63FF' : '#2a2a3e',
               borderRadius: 12,
@@ -78,7 +96,7 @@ function MainTabs() {
           ),
         }}
       />
-      <Tab.Screen name="Stock" component={StockScreen} options={{ title: 'Stok Takip', tabBarLabel: TAB_LABELS.Stock }} />
+      <Tab.Screen name="Orders" component={OrdersScreen} options={{ title: 'Siparişler', tabBarLabel: TAB_LABELS.Orders }} />
       <Tab.Screen name="Shipping" component={ShippingScreen} options={{ title: 'Kargo İşlemleri', tabBarLabel: TAB_LABELS.Shipping }} />
     </Tab.Navigator>
   );
@@ -113,6 +131,11 @@ export default function AppNavigator() {
               name="OrderDetail"
               component={OrderDetailScreen}
               options={{ title: 'Sipariş Detayı' }}
+            />
+            <Stack.Screen
+              name="Stock"
+              component={StockScreen}
+              options={{ title: 'Stok Takip' }}
             />
           </>
         ) : (

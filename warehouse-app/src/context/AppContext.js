@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import { initAPI } from '../api/woocommerce';
+import { initGeliver } from '../api/geliver';
 
 const AppContext = createContext(null);
-
 const STORAGE_KEY = 'wc_credentials';
 
 export const AppProvider = ({ children }) => {
@@ -21,6 +21,7 @@ export const AppProvider = ({ children }) => {
       if (stored) {
         const creds = JSON.parse(stored);
         initAPI(creds.siteUrl, creds.consumerKey, creds.consumerSecret);
+        if (creds.geliverToken) initGeliver(creds.geliverToken);
         setCredentials(creds);
         setIsLoggedIn(true);
       }
@@ -31,12 +32,20 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  const login = async (siteUrl, consumerKey, consumerSecret) => {
-    const creds = { siteUrl, consumerKey, consumerSecret };
+  const login = async (siteUrl, consumerKey, consumerSecret, geliverToken = null, geliverSenderAddressId = null) => {
+    const creds = { siteUrl, consumerKey, consumerSecret, geliverToken, geliverSenderAddressId };
     initAPI(siteUrl, consumerKey, consumerSecret);
+    if (geliverToken) initGeliver(geliverToken);
     await SecureStore.setItemAsync(STORAGE_KEY, JSON.stringify(creds));
     setCredentials(creds);
     setIsLoggedIn(true);
+  };
+
+  const updateGeliverSettings = async (geliverToken, geliverSenderAddressId) => {
+    const updated = { ...credentials, geliverToken, geliverSenderAddressId };
+    if (geliverToken) initGeliver(geliverToken);
+    await SecureStore.setItemAsync(STORAGE_KEY, JSON.stringify(updated));
+    setCredentials(updated);
   };
 
   const logout = async () => {
@@ -46,7 +55,7 @@ export const AppProvider = ({ children }) => {
   };
 
   return (
-    <AppContext.Provider value={{ isLoggedIn, credentials, isLoading, login, logout }}>
+    <AppContext.Provider value={{ isLoggedIn, credentials, isLoading, login, logout, updateGeliverSettings }}>
       {children}
     </AppContext.Provider>
   );
