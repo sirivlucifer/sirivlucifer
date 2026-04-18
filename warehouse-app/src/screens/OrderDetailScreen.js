@@ -29,7 +29,7 @@ export default function OrderDetailScreen({ route, navigation }) {
 
   // Manuel kargo modal
   const [trackingModal, setTrackingModal] = useState(false);
-  const [trackingNumber, setTrackingNumber] = useState('');
+  const [trackingNumber, setTrackingNumberInput] = useState('');
   const [selectedCarrier, setSelectedCarrier] = useState(CARRIERS[0]);
 
   // Geliver modal
@@ -298,7 +298,7 @@ export default function OrderDetailScreen({ route, navigation }) {
             </ScrollView>
             <Text style={styles.modalLabel}>Takip Numarası</Text>
             <TextInput style={styles.modalInput} placeholder="123456789012" placeholderTextColor="#555"
-              value={trackingNumber} onChangeText={setTrackingNumber} keyboardType="number-pad" />
+              value={trackingNumber} onChangeText={setTrackingNumberInput} keyboardType="number-pad" />
             <View style={styles.modalActions}>
               <TouchableOpacity style={styles.cancelBtn} onPress={() => setTrackingModal(false)}>
                 <Text style={styles.cancelText}>İptal</Text>
